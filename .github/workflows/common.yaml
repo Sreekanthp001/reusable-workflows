@@ -1,4 +1,5 @@
 name: common-ci-cd
+
 on: 
   workflow_call:
     inputs:
@@ -11,16 +12,23 @@ on:
       app_type:
         required: true
         type: string
+
 jobs:
-  ci: # job-name
-    runs-on: self-hosted
+  ci:
+    runs-on: [self-hosted, Linux, X64]   # ← will run on your EC2 runner
     steps:
-    - name: checkout Code
-      uses: actions/checkout@v5
-    - name: check the files
-      run: ls -l
-    - name: print inputs
-      run: echo "Project is ${{ inputs.project }}"
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Check the files
+        run: ls -l
+
+      - name: Print inputs
+        run: |
+          echo "Project=${{ inputs.project }}"
+          echo "Component=${{ inputs.component }}"
+          echo "AppType=${{ inputs.app_type }}"
+
     # secrets:
     #   AWS_ACCESS_KEY_ID:
     #     required: true
