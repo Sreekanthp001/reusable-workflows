@@ -29,6 +29,8 @@ jobs:
         run: echo "version=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
       - name: print app version
         run: echo ${{ steps.package-version.outputs.version }}
+      - name: install dependencies
+        run: npm install
           
     # secrets:
     #   AWS_ACCESS_KEY_ID:
@@ -37,8 +39,7 @@ jobs:
     #     required: true
 
     # 
-  #   - name: install dependencies
-  #     run: npm install
+  #   
   #   - name: docker build
   #     run: docker build -t 160885265516.dkr.ecr.us-east-1.amazonaws.com/${{ inputs.project }}/${{ inputs.component }}:${{ steps.package-version.outputs.version }} .
   #   - name: Configure AWS Credentials
