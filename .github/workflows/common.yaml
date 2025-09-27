@@ -11,16 +11,9 @@ on:
       app_type:
         required: true
         type: string
-    # secrets:
-    #   AWS_ACCESS_KEY_ID:
-    #     required: true
-    #   AWS_SECRET_ACCESS_KEY:
-    #     required: true
 jobs:
   ci: # job-name
     runs-on: self-hosted
-    # outputs:
-    #   appVersion: ${{ steps.package-version.outputs.version }}
     steps:
     - name: checkout Code
       uses: actions/checkout@v5
@@ -28,6 +21,14 @@ jobs:
       run: ls -l
     - name: print inputs
       run: echo "Project is ${{ inputs.project }}"
+    # secrets:
+    #   AWS_ACCESS_KEY_ID:
+    #     required: true
+    #   AWS_SECRET_ACCESS_KEY:
+    #     required: true
+
+    # outputs:
+    #   appVersion: ${{ steps.package-version.outputs.version }}
   #   - name: Get app version
   #     id: package-version
   #     run: echo "version=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
