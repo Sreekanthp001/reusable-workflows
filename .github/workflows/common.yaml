@@ -49,18 +49,18 @@ jobs:
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 632745187858.dkr.ecr.us-east-1.amazonaws.com
           docker push 632745187858.dkr.ecr.us-east-1.amazonaws.com/${{ inputs.project }}/${{ inputs.component }}:${{ steps.package-version.outputs.version }}
 
-  # cd:
-  #   runs-on: self-hosted
-  #   needs: ci
-  #   env:
-  #     appVersion: ${{ needs.ci.outputs.appVersion }}
-  #   steps:
-  #     - name: checkout deploy repo
-  #       uses: actions/checkout@v5
-  #       with:
-  #         repository: joindevops-actions/catalogue-deploy
-  #     - name: check the files
-  #       run: ls -l
+  cd:
+    runs-on: self-hosted
+    needs: ci
+    env:
+      appVersion: ${{ needs.ci.outputs.appVersion }}
+    steps:
+      - name: checkout deploy repo
+        uses: actions/checkout@v5
+        with:
+          repository: Sreekanthp001/catalogue-cd
+      - name: check the files
+        run: ls -l
   #     - name: Configure AWS Credentials
   #       uses: aws-actions/configure-aws-credentials@v5.0.0
   #       with:
