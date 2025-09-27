@@ -1,5 +1,4 @@
 name: common-ci-cd
-
 on: 
   workflow_call:
     inputs:
@@ -12,36 +11,32 @@ on:
       app_type:
         required: true
         type: string
-
 jobs:
   ci:
     runs-on: [self-hosted, Linux, X64]   # ← will run on your EC2 runner
+    outputs:
+      appVersion: ${{ steps.package-version.outputs.version }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
-
       - name: Check the files
         run: ls -l
-
       - name: Print inputs
         run: |
           echo "Project=${{ inputs.project }}"
-          echo "Component=${{ inputs.component }}"
-          echo "AppType=${{ inputs.app_type }}"
-
+      - name: Get app version
+        id: package-version
+        run: echo "version=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
+      - name: print app version
+        run: echo ${{ steps.package-version.outputs.version }}
+          
     # secrets:
     #   AWS_ACCESS_KEY_ID:
     #     required: true
     #   AWS_SECRET_ACCESS_KEY:
     #     required: true
 
-    # outputs:
-    #   appVersion: ${{ steps.package-version.outputs.version }}
-  #   - name: Get app version
-  #     id: package-version
-  #     run: echo "version=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
-  #   - name: print app version
-  #     run: echo ${{ steps.package-version.outputs.version }}
+    # 
   #   - name: install dependencies
   #     run: npm install
   #   - name: docker build
